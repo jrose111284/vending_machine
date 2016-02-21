@@ -6,6 +6,9 @@ class VendingMachine
   end
 
   def insert coin
-    @display = '5 cents'
+    self.display = "#{coin} cents"
   end
+
+  private
+  attr_writer :display
 end
