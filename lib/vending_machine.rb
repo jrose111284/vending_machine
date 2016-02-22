@@ -1,4 +1,5 @@
 class VendingMachine
+  VALID_COINS = ['5', '10', '25']
   attr_reader :display, :coin_return
 
   def initialize
@@ -6,11 +7,11 @@ class VendingMachine
   end
 
   def insert coin
-    if coin == '1'
+    if VALID_COINS.include? coin
+      self.display = "#{coin} cents"
+    else
       @coin_return = coin
-      return
     end
-    self.display = "#{coin} cents"
   end
 
   private
