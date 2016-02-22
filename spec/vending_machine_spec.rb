@@ -19,6 +19,14 @@ context "accepts coins" do
   end
 end
 
+context 'invalid coins' do
+  it 'addes 1 and updates display' do
+    subject.insert '1'
+    expect(subject.display).to eq 'INSERT COIN'
+    expect(subject.coin_return).to eq '1'
+  end
+ end
+
   it "displays INSERT COIN when no coins inserted" do
     expect(subject.display).to eq('INSERT COIN')
   end
