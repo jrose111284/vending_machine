@@ -20,10 +20,16 @@ context "accepts coins" do
 end
 
 context 'invalid coins' do
-  it 'addes 1 and updates display' do
+  it 'rejects a penny and updates display' do
     subject.insert '1'
     expect(subject.display).to eq 'INSERT COIN'
     expect(subject.coin_return).to eq '1'
+  end
+
+  it 'rejects a non-coin and updates display' do
+    subject.insert '1wedwd3'
+    expect(subject.display).to eq 'INSERT COIN'
+    expect(subject.coin_return).to eq '1wedwd3'
   end
  end
 
