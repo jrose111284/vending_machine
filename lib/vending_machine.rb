@@ -1,6 +1,5 @@
 class VendingMachine
-
-  VALID_COINS = ['5', '10', '25']
+  VALID_COINS = %w(5 10 25)
 
   attr_reader :display, :coin_return
 
@@ -9,9 +8,9 @@ class VendingMachine
     self.coins = []
   end
 
-  def insert coin
+  def insert(coin)
     if VALID_COINS.include? coin
-      self.coins.push(coin)
+      coins.push(coin)
       self.display = "#{total} cents"
     else
       self.coin_return = coin
@@ -25,7 +24,7 @@ class VendingMachine
   private
 
   def total
-    self.coins.map(&:to_i).inject(:+)
+    coins.map(&:to_i).inject(:+)
   end
 
   attr_writer :display, :coin_return, :coins
