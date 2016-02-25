@@ -14,4 +14,18 @@ describe VendingMachine do
     expect(subject.display).to eq('30 cents')
   end
 
+  it'dispense a product'do
+    subject.insert('25')
+    subject.insert('25')
+    subject.insert('25')
+    subject.insert('25')
+    subject.button('cola')
+    expect(subject.hopper.name).to eq('cola')
+    expect(subject.display).to eq ('Thank You')
+    expect(subject.display).to eq ('INSERT COIN')
+    # class VendingMachine; attr_reader :coins; new
+    #   expect(subject.coins).to eq []
+    # end
+  end
+
 end
