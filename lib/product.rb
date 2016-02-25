@@ -10,5 +10,5 @@ class Product
   private
 
   attr_writer :name, :price
-  
+
 end
