@@ -23,9 +23,8 @@ describe VendingMachine do
     expect(subject.hopper.name).to eq('cola')
     expect(subject.display).to eq ('Thank You')
     expect(subject.display).to eq ('INSERT COIN')
-    # class VendingMachine; attr_reader :coins; new
-    #   expect(subject.coins).to eq []
-    # end
+    class VendingMachine; attr_reader :coins; end
+      expect(subject.coins).to eq []
   end
 
 end
