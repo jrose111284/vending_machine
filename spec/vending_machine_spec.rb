@@ -55,4 +55,9 @@ describe VendingMachine do
     class VendingMachine; attr_reader :coins; end
       expect(subject.coins).to eq []
   end
+
+  it 'displays price when correct money not reached' do
+    subject.button('cola')
+    expect(subject.display).to eq ('price 100')
+  end
 end

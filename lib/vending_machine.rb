@@ -25,7 +25,11 @@ class VendingMachine
   end
 
   def button(product_name)
+    if total == 100
     self.display = 'Thank You'
+  else
+    self.display = "price 100"
+  end
   end
 
   def hopper
