@@ -27,4 +27,12 @@ describe VendingMachine do
       expect(subject.coins).to eq []
   end
 
+  it'does not dispense a product if price is not reacted' do
+    subject.insert('25')
+    subject.insert('25')
+    subject.insert('25')
+    subject.button('cola')
+    expect(subject.display).to eq ('price 100')
+  end
+
 end
