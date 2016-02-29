@@ -44,4 +44,10 @@ describe VendingMachine do
     expect(subject.send(:coins)).to eq []
   end
 
+  it 'will not allow the purchase of invalid products' do
+    subject.button 'kitkat'
+    expect(subject.display).to eq('INSERT COIN')
+    expect(subject.hopper).to be(nil)
+  end
+
 end

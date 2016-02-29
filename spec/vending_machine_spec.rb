@@ -79,7 +79,12 @@ describe VendingMachine do
     expect(subject.display).to eq ('Thank You')
   end
 
-  it 'will not allow the purchase of invalid products' do
+  it 'selecting invalid products does not update display' do
+    subject.button 'kitkat'
+    expect(subject.display).to eq('INSERT COIN')
+  end
+
+  it 'selecting invalid products does dispense a product' do
     subject.button 'kitkat'
     expect(subject.display).to eq('INSERT COIN')
   end

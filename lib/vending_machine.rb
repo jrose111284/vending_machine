@@ -1,5 +1,8 @@
+require_relative 'product'
+
 class VendingMachine
   VALID_COINS = %w(5 10 25)
+  VALID_PRODUCTS = [Product.new('cola', 100), Product.new('chips', 50)]
 
   def display
     initialize if self.ready_to_reset
@@ -7,7 +10,7 @@ class VendingMachine
     @display
   end
 
-  attr_reader :coin_return, :coins
+  attr_reader :coin_return, :coins, :hopper
 
   def initialize
     self.display = 'INSERT COIN'
@@ -26,26 +29,43 @@ class VendingMachine
 
   def button(product_name)
     @product_name = product_name
-     if @product_name == 'cola'
-       self.display = total == 100 ? 'Thank You' : 'price 100'
-     else
-       self.display = total == 50 ? 'Thank You' : 'price 50'
-     end
-  end
-
-  def hopper
-    Product.new @product_name, 100
+    update_display select_product
+    select_product
   end
 
   protected
 
-  attr_reader :coins, :ready_to_reset
+  attr_reader :coins, :ready_to_reset, :product
 
   private
+
+  def select_product
+    name_matcher = -> (p) { p.name == @product_name }
+    self.product = VALID_PRODUCTS.select(&name_matcher).first
+  end
+
+  def vend
+    if self.product
+      update_display
+      dispense_product
+    end
+  end
+
+  def dispense_product
+    self.hopper = self.product if total == product.price
+  end
+
+  # def correct_amount?
+  #   total == self.product.price
+  # end
+
+  def update_display
+    self.display = total == self.product.price ? 'Thank You' : "price #{product.price}"
+  end
 
   def total
     coins.map(&:to_i).inject(:+)
   end
 
-  attr_writer :display, :coin_return, :coins, :ready_to_reset
+  attr_writer :display, :coin_return, :coins, :ready_to_reset, :product, :hopper
 end
