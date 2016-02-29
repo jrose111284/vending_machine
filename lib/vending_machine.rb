@@ -25,11 +25,16 @@ class VendingMachine
   end
 
   def button(product_name)
-    self.display = total == 100 ? 'Thank You' : 'price 100'
+    @product_name = product_name
+     if @product_name == 'cola'
+       self.display = total == 100 ? 'Thank You' : 'price 100'
+     else
+       self.display = total == 50 ? 'Thank You' : 'price 50'
+     end
   end
 
   def hopper
-    Product.new 'cola', 100
+    Product.new @product_name, 100
   end
 
   protected

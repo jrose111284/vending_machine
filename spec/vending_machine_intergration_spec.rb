@@ -14,7 +14,7 @@ describe VendingMachine do
     expect(subject.display).to eq('30 cents')
   end
 
-  it'dispense a product'do
+  it'dispense a product (cola)'do
     subject.insert('25')
     subject.insert('25')
     subject.insert('25')
@@ -23,8 +23,7 @@ describe VendingMachine do
     expect(subject.hopper.name).to eq('cola')
     expect(subject.display).to eq ('Thank You')
     expect(subject.display).to eq ('INSERT COIN')
-    class VendingMachine; attr_reader :coins; end
-      expect(subject.coins).to eq []
+    expect(subject.send(:coins)).to eq []
   end
 
   it'does not dispense a product if price is not reached' do
@@ -33,6 +32,16 @@ describe VendingMachine do
     subject.insert('25')
     subject.button('cola')
     expect(subject.display).to eq ('price 100')
+  end
+
+  it'dispense a product if price is correct (chips)'do
+    subject.insert('25')
+    subject.insert('25')
+    subject.button('chips')
+    expect(subject.hopper.name).to eq('chips')
+    expect(subject.display).to eq ('Thank You')
+    expect(subject.display).to eq ('INSERT COIN')
+    expect(subject.send(:coins)).to eq []
   end
 
 end
