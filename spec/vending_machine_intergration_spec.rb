@@ -27,7 +27,7 @@ describe VendingMachine do
       expect(subject.coins).to eq []
   end
 
-  it'does not dispense a product if price is not reacted' do
+  it'does not dispense a product if price is not reached' do
     subject.insert('25')
     subject.insert('25')
     subject.insert('25')
