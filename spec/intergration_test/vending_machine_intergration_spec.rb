@@ -26,12 +26,18 @@ describe VendingMachine do
     expect(subject.send(:coins)).to eq []
   end
 
-  it'does not dispense a product if price is not reached' do
-    subject.insert('25')
+  it'does not dispense a product with insufficient payment' do
     subject.insert('25')
     subject.insert('25')
     subject.button('cola')
     expect(subject.display).to eq ('price 100')
+      expect(subject.display).to eq ('50 cents')
+  end
+
+  it'does not dispense a product with no payment' do
+    subject.button('cola')
+    expect(subject.display).to eq ('price 100')
+      expect(subject.display).to eq ('INSERT COIN')
   end
 
   it'dispense a product if price is correct (chips)'do

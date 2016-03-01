@@ -9,6 +9,7 @@ class VendingMachine
   def display
     initialize if self.ready_to_reset
     self.ready_to_reset = true if @display == 'Thank You'
+    self.ready_to_insufficient_payment_reset = true if @display.start_with? 'price'
     @display
   end
 
@@ -16,6 +17,7 @@ class VendingMachine
     self.display = 'INSERT COIN'
     self.coins = []
     self.ready_to_reset = false
+    self.ready_to_insufficient_payment_reset = false
   end
 
   def insert(coin)

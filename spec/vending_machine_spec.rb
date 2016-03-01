@@ -60,9 +60,23 @@ describe VendingMachine do
     expect(subject.display).to eq ('price 100')
   end
 
-  xit 'displays price when correct money not reached' do
+  it 'displays price when correct money not reached' do
     subject.button('chips')
     expect(subject.display).to eq ('price 50')
+  end
+
+  it 'will reset display after insufficient payment' do
+    subject.insert('25')
+    subject.insert('25')
+    subject.button('cola')
+    subject.display
+    expect(subject.display).to eq ('50 cents')
+  end
+
+  it'will reset display after no payment' do
+    subject.button('cola')
+    subject.display
+    expect(subject.display).to eq ('INSERT COIN')
   end
 
   it 'dispense chips if correct amount is inserted' do
