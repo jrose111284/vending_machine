@@ -4,13 +4,13 @@ class VendingMachine
   VALID_COINS = %w(5 10 25)
   VALID_PRODUCTS = [Product.new('cola', 100), Product.new('chips', 50)]
 
+  attr_reader :coin_return, :coins, :hopper
+
   def display
     initialize if self.ready_to_reset
     self.ready_to_reset = true if @display == 'Thank You'
     @display
   end
-
-  attr_reader :coin_return, :coins, :hopper
 
   def initialize
     self.display = 'INSERT COIN'
@@ -29,8 +29,8 @@ class VendingMachine
 
   def button(product_name)
     @product_name = product_name
-    update_display select_product
     select_product
+    vend
   end
 
   protected
