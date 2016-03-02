@@ -26,6 +26,17 @@ describe VendingMachine do
     expect(subject.send(:coins)).to eq []
   end
 
+  it'dispense a product (candy)'do
+    subject.insert('25')
+    subject.insert('25')
+    subject.insert('10')
+    subject.button('candy')
+    expect(subject.hopper.name).to eq('candy')
+    expect(subject.display).to eq ('Thank You')
+    expect(subject.display).to eq ('INSERT COIN')
+    expect(subject.send(:coins)).to eq []
+  end
+
   it'does not dispense a product with insufficient payment' do
     subject.insert('25')
     subject.insert('25')
