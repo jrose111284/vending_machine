@@ -2,7 +2,9 @@ require_relative 'product'
 
 class VendingMachine
   VALID_COINS = %w(5 10 25)
-  VALID_PRODUCTS = [Product.new('cola', 100), Product.new('chips', 50), Product.new('candy', 60)]
+  VALID_PRODUCTS = [Product.new('cola', 100),
+                    Product.new('chips', 50),
+                    Product.new('candy', 60)]
 
   attr_reader :coin_return, :coins, :hopper
 
