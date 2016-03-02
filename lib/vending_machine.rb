@@ -8,6 +8,10 @@ class VendingMachine
 
   def display
     initialize if self.ready_to_reset
+    if self.ready_to_insufficient_payment_reset
+      self.display = total ? "#{total} cents" : "INSERT COIN"
+      self.ready_to_insufficient_payment_reset = false
+    end
     self.ready_to_reset = true if @display == 'Thank You'
     self.ready_to_insufficient_payment_reset = true if @display.start_with? 'price'
     @display
@@ -37,7 +41,7 @@ class VendingMachine
 
   protected
 
-  attr_reader :coins, :ready_to_reset, :product
+  attr_reader :coins, :ready_to_reset, :product, :ready_to_insufficient_payment_reset
 
   private
 
@@ -57,10 +61,6 @@ class VendingMachine
     self.hopper = self.product if total == product.price
   end
 
-  # def correct_amount?
-  #   total == self.product.price
-  # end
-
   def update_display
     self.display = total == self.product.price ? 'Thank You' : "price #{product.price}"
   end
@@ -69,5 +69,5 @@ class VendingMachine
     coins.map(&:to_i).inject(:+)
   end
 
-  attr_writer :display, :coin_return, :coins, :ready_to_reset, :product, :hopper
+  attr_writer :display, :coin_return, :coins, :ready_to_reset, :product, :hopper, :ready_to_insufficient_payment_reset
 end
