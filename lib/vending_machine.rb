@@ -7,13 +7,8 @@ class VendingMachine
   attr_reader :coin_return, :coins, :hopper
 
   def display
-    initialize if self.ready_to_reset
-    if self.ready_to_insufficient_payment_reset
-      self.display = total ? "#{total} cents" : "INSERT COIN"
-      self.ready_to_insufficient_payment_reset = false
-    end
-    self.ready_to_reset = true if @display == 'Thank You'
-    self.ready_to_insufficient_payment_reset = true if @display.start_with? 'price'
+    handle_insufficient_payment_state
+    handle_purchase_completed_state
     @display
   end
 
@@ -63,6 +58,19 @@ class VendingMachine
 
   def update_display
     self.display = total == self.product.price ? 'Thank You' : "price #{product.price}"
+  end
+
+  def handle_insufficient_payment_state
+    if self.ready_to_insufficient_payment_reset
+      self.display = total ? "#{total} cents" : "INSERT COIN"
+      self.ready_to_insufficient_payment_reset = false
+    end
+    self.ready_to_insufficient_payment_reset = true if @display.start_with? 'price'
+  end
+
+  def handle_purchase_completed_state
+    initialize if self.ready_to_reset
+    self.ready_to_reset = true if @display == 'Thank You'
   end
 
   def total
