@@ -13,6 +13,7 @@ class VendingMachine
     self.coins = []
     self.ready_to_reset = false
     self.ready_to_insufficient_payment_reset = false
+    self.payment_sufficient = false
   end
 
   def display
@@ -41,7 +42,8 @@ class VendingMachine
   attr_reader :coins,
               :ready_to_reset,
               :product,
-              :ready_to_insufficient_payment_reset
+              :ready_to_insufficient_payment_reset,
+              :payment_sufficient
 
   private
 
@@ -50,42 +52,66 @@ class VendingMachine
               :coins,
               :ready_to_reset,
               :product, :hopper,
-              :ready_to_insufficient_payment_reset
+              :ready_to_insufficient_payment_reset,
+              :payment_sufficient
 
   def select_product
     name_matcher = -> (p) { p.name == @product_name }
-    self.product = VALID_PRODUCTS.select(&name_matcher).first
+    self.product = VALID_PRODUCTS.find(&name_matcher)
   end
 
   def vend
-    if self.product
-      update_display
-      dispense_product
-    end
-  end
-
-  def dispense_product
-    self.hopper = self.product if total == product.price
-  end
-
-  def total
-    coins.map(&:to_i).inject(:+)
+    return unless product
+    dispense_product
+    make_change
+    update_display
   end
 
   def update_display
-    self.display = total == self.product.price ? 'Thank You' : "price #{product.price}"
+    self.display = payment_sufficient? ? 'Thank You' : "price #{product.price}"
+  end
+
+  def dispense_product
+    self.hopper = product if payment_sufficient?
+  end
+
+  def total
+    coins.map(&:to_i).inject(:+) || 0
+  end
+
+  def make_change
+    return if total <= product.price
+    coins.sort! { |a, b| b.to_i <=> a.to_i }
+    coin_values = coins.map(&:to_i)
+    remainder = 0
+    used_coins = []
+    coin_values.each do |coin|
+      remainder = product.price - (used_coins.inject(:+) || 0) - coin
+      break if remainder < 0
+      used_coins << coin
+    end
+    used_coins.each do |coin|
+      coins.delete_at(coin_values.index(coin))
+      coin_values.delete_at(coin_values.index(coin))
+    end
+    coins.delete(coin_values.index(-remainder))
+    self.coin_return = coins.first
+  end
+
+  def payment_sufficient?
+    @payment_sufficient ||= total >= product.price
   end
 
   def handle_insufficient_payment_state
-    if self.ready_to_insufficient_payment_reset
-      self.display = total ? "#{total} cents" : "INSERT COIN"
+    if ready_to_insufficient_payment_reset
+      self.display = total > 0 ? "#{total} cents" : 'INSERT COIN'
       self.ready_to_insufficient_payment_reset = false
     end
     self.ready_to_insufficient_payment_reset = true if @display.start_with? 'price'
   end
 
   def handle_purchase_completed_state
-    initialize if self.ready_to_reset
+    initialize if ready_to_reset
     self.ready_to_reset = true if @display == 'Thank You'
   end
 end

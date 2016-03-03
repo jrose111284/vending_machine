@@ -102,4 +102,24 @@ describe VendingMachine do
     subject.button 'kitkat'
     expect(subject.display).to eq('INSERT COIN')
   end
+
+  context 'make change feature' do
+    it 'will dispense product after overpayment' do
+      subject.insert '25'
+      subject.insert '25'
+      subject.insert '25'
+      subject.button('candy')
+      expect(subject.hopper.name).to eq('candy')
+    end
+
+    it 'will return coins given payment' do
+      subject.insert('25')
+      subject.insert('25')
+      subject.insert('10')
+      subject.insert('10')
+      subject.insert('5')
+      subject.button('candy')
+      expect(subject.coin_return).to eq('10')
+    end
+  end
 end

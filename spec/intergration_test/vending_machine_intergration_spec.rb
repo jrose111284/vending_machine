@@ -1,40 +1,44 @@
 require 'vending_machine'
 
 describe VendingMachine do
-  it 'can handle a sequence of invalid and vaild coins' do
-    subject.insert('llama')
-    expect(subject.display).to eq('INSERT COIN')
-    expect(subject.coin_return).to eq('llama')
-    subject.insert('1')
-    expect(subject.display).to eq('INSERT COIN')
-    expect(subject.coin_return).to eq('1')
-    subject.insert('5')
-    expect(subject.display).to eq('5 cents')
-    subject.insert('25')
-    expect(subject.display).to eq('30 cents')
+  context 'Accepts coins feature' do
+    it 'can handle a sequence of invalid and vaild coins' do
+      subject.insert('llama')
+      expect(subject.display).to eq('INSERT COIN')
+      expect(subject.coin_return).to eq('llama')
+      subject.insert('1')
+      expect(subject.display).to eq('INSERT COIN')
+      expect(subject.coin_return).to eq('1')
+      subject.insert('5')
+      expect(subject.display).to eq('5 cents')
+      subject.insert('25')
+      expect(subject.display).to eq('30 cents')
+    end
   end
 
-  it'dispense a product (cola)'do
-    subject.insert('25')
-    subject.insert('25')
-    subject.insert('25')
-    subject.insert('25')
-    subject.button('cola')
-    expect(subject.hopper.name).to eq('cola')
-    expect(subject.display).to eq ('Thank You')
-    expect(subject.display).to eq ('INSERT COIN')
-    expect(subject.send(:coins)).to eq []
-  end
+  context 'Select product feature' do
+    it'dispense a product (cola)'do
+      subject.insert('25')
+      subject.insert('25')
+      subject.insert('25')
+      subject.insert('25')
+      subject.button('cola')
+      expect(subject.hopper.name).to eq('cola')
+      expect(subject.display).to eq ('Thank You')
+      expect(subject.display).to eq ('INSERT COIN')
+      expect(subject.send(:coins)).to eq []
+    end
 
-  it'dispense a product (candy)'do
-    subject.insert('25')
-    subject.insert('25')
-    subject.insert('10')
-    subject.button('candy')
-    expect(subject.hopper.name).to eq('candy')
-    expect(subject.display).to eq ('Thank You')
-    expect(subject.display).to eq ('INSERT COIN')
-    expect(subject.send(:coins)).to eq []
+    it'dispense a product (candy)'do
+      subject.insert('25')
+      subject.insert('25')
+      subject.insert('10')
+      subject.button('candy')
+      expect(subject.hopper.name).to eq('candy')
+      expect(subject.display).to eq ('Thank You')
+      expect(subject.display).to eq ('INSERT COIN')
+      expect(subject.send(:coins)).to eq []
+    end
   end
 
   it'does not dispense a product with insufficient payment' do
@@ -65,6 +69,21 @@ describe VendingMachine do
     subject.button 'kitkat'
     expect(subject.display).to eq('INSERT COIN')
     expect(subject.hopper).to be(nil)
+  end
+  context 'Make change' do
+    it 'wil return excess payment to customer' do
+      subject.insert('25')
+      subject.insert('25')
+      subject.insert('10')
+      subject.insert('10')
+      subject.insert('5')
+      subject.button('candy')
+      expect(subject.hopper.name).to eq('candy')
+      expect(subject.display).to eq ('Thank You')
+      expect(subject.display).to eq ('INSERT COIN')
+      expect(subject.coin_return).to eq ('10')
+      expect(subject.send(:coins)).to eq []
+    end
   end
 
 end
