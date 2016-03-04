@@ -1,0 +1,3 @@
+describe CoinManger do
+  
+end
