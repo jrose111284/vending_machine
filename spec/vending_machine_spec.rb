@@ -65,6 +65,11 @@ describe VendingMachine do
     expect(subject.display).to eq ('price 50')
   end
 
+  it 'displays price when correct money not reached' do
+    subject.button('candy')
+    expect(subject.display).to eq ('price 60')
+  end
+
   it 'will reset display after insufficient payment' do
     subject.insert('25')
     subject.insert('25')
