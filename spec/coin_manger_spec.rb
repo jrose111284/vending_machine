@@ -35,6 +35,11 @@ describe CoinManger do
       expect(subject.total).to eq 0
     end
 
+    it 'rejects a 50 cent coin and updates display' do
+      subject.insert '50'
+      expect(subject.total).to eq 0
+    end
+
     it 'rejects a non-coin and updates display' do
       subject.insert '1wedwd3'
       expect(subject.total).to eq 0
