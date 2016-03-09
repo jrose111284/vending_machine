@@ -78,8 +78,20 @@ describe VendingMachine do
     expect(subject.display).to eq ('50 cents')
   end
 
-  it'will reset display after no payment' do
+  it'will reset display after no payment for cola' do
     subject.button('cola')
+    subject.display
+    expect(subject.display).to eq ('INSERT COIN')
+  end
+
+  it'will reset display after no payment for candy' do
+    subject.button('candy')
+    subject.display
+    expect(subject.display).to eq ('INSERT COIN')
+  end
+
+  it'will reset display after no payment for chips' do
+    subject.button('chips')
     subject.display
     expect(subject.display).to eq ('INSERT COIN')
   end
