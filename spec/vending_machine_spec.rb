@@ -103,6 +103,23 @@ describe VendingMachine do
     expect(subject.hopper.name).to eq('chips')
   end
 
+  it 'dispense cola if correct amount is inserted' do
+    subject.insert '25'
+    subject.insert '25'
+    subject.insert '25'
+    subject.insert '25'
+    subject.button('cola')
+    expect(subject.hopper.name).to eq('cola')
+  end
+
+  it 'dispense candy if correct amount is inserted' do
+    subject.insert '25'
+    subject.insert '25'
+    subject.insert '10'
+    subject.button('candy')
+    expect(subject.hopper.name).to eq('candy')
+  end
+
   it 'successful purchase leads to a thank you' do
     subject.insert '25'
     subject.insert '25'
