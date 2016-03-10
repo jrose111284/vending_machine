@@ -37,11 +37,11 @@ class CoinManger
       coin_values.delete_at(coin_values.index(coin))
     end
     coins.delete(coin_values.index(-remainder))
-    self.coin_return = coins.first
+    coin_return = coins.first
   end
 
   private
 
   attr_accessor :coins
-  attr_reader :coin_return
+  attr_writer :coin_return
 end
