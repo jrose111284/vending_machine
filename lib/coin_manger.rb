@@ -16,7 +16,7 @@ class CoinManger
         coins.push(coin)
         true
     else
-      coin_return = coin
+      self.coin_return = coin
       false
     end
   end
@@ -37,7 +37,7 @@ class CoinManger
       coin_values.delete_at(coin_values.index(coin))
     end
     coins.delete(coin_values.index(-remainder))
-    coin_return = coins.first
+    self.coin_return = coins.first
   end
 
   private
