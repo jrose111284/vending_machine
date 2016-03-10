@@ -26,7 +26,6 @@ describe VendingMachine do
       expect(subject.hopper.name).to eq('cola')
       expect(subject.display).to eq ('Thank You')
       expect(subject.display).to eq ('INSERT COIN')
-      expect(subject.send(:coins)).to eq []
     end
 
     it'dispense a product (candy)'do
@@ -37,7 +36,6 @@ describe VendingMachine do
       expect(subject.hopper.name).to eq('candy')
       expect(subject.display).to eq ('Thank You')
       expect(subject.display).to eq ('INSERT COIN')
-      expect(subject.send(:coins)).to eq []
     end
   end
 
@@ -62,7 +60,6 @@ describe VendingMachine do
     expect(subject.hopper.name).to eq('chips')
     expect(subject.display).to eq ('Thank You')
     expect(subject.display).to eq ('INSERT COIN')
-    expect(subject.send(:coins)).to eq []
   end
 
   it 'will not allow the purchase of invalid products' do
@@ -82,7 +79,6 @@ describe VendingMachine do
       expect(subject.display).to eq ('Thank You')
       expect(subject.display).to eq ('INSERT COIN')
       expect(subject.coin_return).to eq ('10')
-      expect(subject.send(:coins)).to eq []
     end
   end
 

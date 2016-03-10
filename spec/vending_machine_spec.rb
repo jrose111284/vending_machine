@@ -52,7 +52,6 @@ describe VendingMachine do
     subject.button('cola')
     expect(subject.display).to eq ('Thank You')
     expect(subject.display).to eq ('INSERT COIN')
-    expect(subject.send(:coins)).to eq []
   end
 
   it 'displays price when correct money not reached' do
