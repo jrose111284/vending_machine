@@ -144,15 +144,5 @@ describe VendingMachine do
       subject.button('candy')
       expect(subject.hopper.name).to eq('candy')
     end
-
-    it 'will return coins given payment' do
-      subject.insert('25')
-      subject.insert('25')
-      subject.insert('10')
-      subject.insert('10')
-      subject.insert('5')
-      subject.button('candy')
-      expect(subject.coin_return).to eq('10')
-    end
   end
 end

@@ -46,4 +46,17 @@ describe CoinManger do
     end
   end
 
+  describe '#make_change' do
+
+    it 'will return coins given over payment' do
+      subject.insert('25')
+      subject.insert('25')
+      subject.insert('10')
+      subject.insert('10')
+      subject.insert('5')
+      subject.make_change (65)
+      expect(subject.coin_return).to eq('10')
+    end
+  end
+
 end

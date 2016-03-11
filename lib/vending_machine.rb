@@ -8,9 +8,9 @@ class VendingMachine
 
   attr_reader :coin_return, :coins, :hopper
 
-  def initialize
+  def initialize coin_manger_klass = CoinManger
     self.display = 'INSERT COIN'
-    self.coin_manger = CoinManger.new
+    self.coin_manger = coin_manger_klass.new
     self.ready_to_reset = false
     self.ready_to_insufficient_payment_reset = false
     self.payment_sufficient = false
